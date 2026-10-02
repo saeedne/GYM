@@ -1,0 +1,19 @@
+{
+  "id": "/mobile/",
+  "name": "باشگاه من | Gym Manager",
+  "short_name": "باشگاه من",
+  "description": "وب‌اپ اعضا و کارکنان باشگاه ورزشی",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "/mobile/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#07111f",
+  "theme_color": "#07111f",
+  "icons": [
+    {"src": "/static/images/gym-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "/static/images/gym-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"},
+    {"src": "/static/images/gym-icon.svg", "sizes": "any", "type": "image/svg+xml"}
+  ]
+}

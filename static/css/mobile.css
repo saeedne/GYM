@@ -1,0 +1,26 @@
+body:has(.mobile-wrap) .sidebar{display:none}body:has(.mobile-wrap) .app-shell{display:block}body:has(.mobile-wrap) .topbar{display:none}body:has(.mobile-wrap) .content{max-width:680px;padding:18px 14px 40px}.mobile-wrap{max-width:620px;margin:0 auto}.mobile-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:8px 0 18px}.mobile-header h1{font-size:25px;margin:6px 0}.mobile-header small,.mobile-card small,.mobile-card>span{color:#91a5bc}.mobile-card{background:linear-gradient(145deg,#10233a,#0d1b2d);border:1px solid #1d3551;border-radius:18px;padding:19px;margin:14px 0;box-shadow:0 12px 32px #0003}.mobile-card h2{font-size:17px;margin:0 0 12px}.membership-card>div{display:flex;align-items:center;justify-content:space-between}.membership-card>div span{color:#91a5bc}.membership-card strong{color:#73e0b4;font-size:19px}.membership-card p{margin:13px 0 5px}.pass-card{border-color:#2386ff}.pass-card strong{display:block;font-size:22px;letter-spacing:1px;margin:10px 0;direction:ltr;text-align:center;overflow-wrap:anywhere}.mobile-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-top:1px solid #1d3551;padding:12px 0}.mobile-row span:last-child{text-align:left;color:#b6c8dc}.mobile-footer{display:flex;justify-content:center;padding:12px}.mobile-footer form{margin:0}.permission-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px}.permission-item{display:flex!important;align-items:center;gap:9px;background:#091827;padding:10px;border:1px solid #1d3551;border-radius:9px}.permission-item input{width:auto!important}.role-form fieldset{border:1px solid #1d3551;border-radius:12px;margin:12px 0;padding:14px}.role-form legend{padding:0 8px;color:#a9bed5}.role-cards{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}.logout-form{display:inline-flex;margin:0}.logout-form button{background:transparent!important;border:0!important;color:#c9d7e7!important;padding:6px!important;font:inherit}.content button[hidden]{display:none!important}
+
+/* Staff Web App home: explicit grid layout prevents the menu cards from overlapping. */
+body:has(.staff-mobile-wrap) .sidebar{display:none}
+body:has(.staff-mobile-wrap) .app-shell{display:block;min-height:100dvh}
+body:has(.staff-mobile-wrap) .topbar{display:none}
+body:has(.staff-mobile-wrap) .content{width:100%;max-width:760px;padding:clamp(14px,4vw,30px);margin:0 auto}
+.staff-mobile-wrap{width:100%;max-width:700px;margin:0 auto}
+.staff-mobile-header{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:6px 2px 20px;margin-bottom:22px;border-bottom:1px solid var(--line)}
+.staff-mobile-brand{display:flex;align-items:center;gap:13px;min-width:0}
+.staff-mobile-mark{display:grid;place-items:center;flex:0 0 44px;width:44px;height:44px;border-radius:13px;background:var(--panel2);border:1px solid var(--line);color:var(--primary);font-size:13px;font-weight:800;letter-spacing:.5px}
+.staff-mobile-header h1{font-size:clamp(19px,5vw,25px);line-height:1.4;margin:0 0 3px}
+.staff-mobile-header p{color:var(--muted);font-size:13px;margin:0;overflow-wrap:anywhere}
+.staff-mobile-time{color:var(--muted);font-size:12px;white-space:nowrap;direction:rtl}
+.staff-mobile-content{padding:clamp(16px,4vw,25px);border:1px solid var(--line);border-radius:20px;background:var(--panel);box-shadow:0 12px 34px #0002}
+.staff-mobile-intro{margin-bottom:18px}
+.staff-mobile-intro h2{font-size:18px;margin:0 0 5px}
+.staff-mobile-intro p{font-size:13px;color:var(--muted);margin:0}
+.staff-mobile-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+.staff-mobile-link{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0;min-height:58px;margin:0;padding:13px 15px;border:1px solid var(--line);border-radius:12px;background:var(--input);color:var(--text);line-height:1.6;overflow-wrap:anywhere;transition:border-color .15s ease,background .15s ease}
+.staff-mobile-link:hover,.staff-mobile-link:focus-visible{border-color:var(--primary);background:var(--panel2);outline:none}
+.staff-mobile-arrow{flex:0 0 auto;color:var(--primary);font-size:19px}
+.staff-mobile-empty{grid-column:1/-1;margin:0;padding:17px;border:1px dashed var(--line);border-radius:12px;color:var(--muted);line-height:1.9}
+.staff-mobile-footer{display:flex;justify-content:center;padding:18px 0 4px}
+.staff-mobile-footer form{margin:0}
+@media(max-width:520px){.staff-mobile-header{align-items:flex-start;flex-direction:column}.staff-mobile-links{grid-template-columns:minmax(0,1fr)}.staff-mobile-link{min-height:54px}}
