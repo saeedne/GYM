@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} | {{ club.name }}{% endblock %}
+{% block head_extra %}{% endblock %}
+
+{% block content %}
+<div class="page-head">
+    <div>
+        <h1>{{ title }}</h1>
+        <p class="muted">{{ club.name }}</p>
+    </div>
+</div>
+
+<div class="panel form-panel">
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+        {% if field.name != "birth_date_jalali" %}
+        <div class="field">
+            {{ field.label_tag }}
+            {{ field }}
+            {% for error in field.errors %}<div class="error">{{ error }}</div>{% endfor %}
+        </div>
+        {% endif %}
+    {% endfor %}
+
+    <div class="field">
+        {{ form.birth_date_jalali.label_tag }}
+        {{ form.birth_date_jalali }}
+        {% for error in form.birth_date_jalali.errors %}<div class="error">{{ error }}</div>{% endfor %}
+    </div>
+
+    <div class="actions">
+        <button class="btn primary" type="submit">ذخیره</button>
+        <a class="btn" href="{% url 'member_list' %}">انصراف</a>
+    </div>
+</form>
+</div>
+{% endblock %}

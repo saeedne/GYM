@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-head">
+  <div><h1>کاربران باشگاه</h1><p>حساب‌ها و عضویت‌های همین باشگاه</p></div>
+  {% if 'add_users' in club_permissions or 'all' in club_permissions %}<a class="btn primary" href="{% url 'accounts:user_create' %}">تعریف کاربر</a>{% endif %}
+</div>
+<div class="panel table-wrap"><table>
+  <thead><tr><th>کاربر</th><th>نام نمایشی</th><th>شعبه</th><th>نقش</th><th>Web App</th><th>وضعیت</th><th>عملیات</th></tr></thead>
+  <tbody>
+  {% for item in memberships %}
+  <tr>
+    <td>{{ item.user.username }}</td><td>{{ item.user.display_name|default:'—' }}</td><td>{{ item.branch|default:'—' }}</td>
+    <td>{% if item.is_manager %}مدیر باشگاه{% else %}{{ item.club_role.name|default:item.role|default:'بدون نقش' }}{% endif %}</td>
+    <td>{% if item.webapp_enabled %}فعال{% else %}خاموش{% endif %}</td><td>{% if item.is_active %}فعال{% else %}غیرفعال{% endif %}</td>
+    <td class="row-actions">
+      {% if 'change_users' in club_permissions or 'all' in club_permissions %}<a href="{% url 'accounts:user_edit' item.pk %}">ویرایش مشخصات</a> · <a href="{% url 'accounts:user_access_edit' item.pk %}">ویرایش دسترسی</a>{% endif %}
+      {% if not item.is_manager and 'delete_users' in club_permissions or not item.is_manager and 'all' in club_permissions %}
+      <form method="post" action="{% url 'accounts:user_membership_delete' item.pk %}" class="inline-form" onsubmit="return confirm('دسترسی این کاربر از باشگاه فعلی حذف شود؟')">
+        {% csrf_token %}<button type="submit" class="btn danger">حذف از باشگاه</button>
+      </form>
+      {% elif item.is_manager and 'delete_users' in club_permissions or item.is_manager and 'all' in club_permissions %}<span class="muted">مدیر قابل حذف نیست</span>{% endif %}
+    </td>
+  </tr>
+  {% empty %}<tr><td colspan="7">کاربری برای این باشگاه ثبت نشده است.</td></tr>{% endfor %}
+  </tbody>
+</table></div>
+<p>نقش دسترسی، مجوزهای پایه و قابل استفاده مجدد است؛ دسترسی اختصاصی به همان کاربر اضافه می‌شود. حذف از این صفحه فقط عضویت کاربر در باشگاه فعلی را حذف می‌کند و حسابی را که در باشگاه دیگری عضویت دارد پاک نمی‌کند.</p>
+{% endblock %}

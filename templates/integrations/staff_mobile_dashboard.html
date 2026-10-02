@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}وب‌اپ کارکنان | {{ club.name }}{% endblock %}
+{% block head_extra %}
+<link rel="manifest" href="{% static 'manifest.webmanifest' %}">
+<meta name="theme-color" content="#07111f">
+<link rel="stylesheet" href="{% static 'css/mobile.css' %}?v=20260930a">
+{% endblock %}
+{% block scripts %}<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/service-worker.js').catch(()=>{});}</script>{% endblock %}
+{% block content %}
+<main class="staff-mobile-wrap" dir="rtl">
+  <header class="staff-mobile-header">
+    <div class="staff-mobile-brand">
+      <span class="staff-mobile-mark" aria-hidden="true">GYM</span>
+      <div><h1>وب‌اپ کارکنان</h1><p>{{ club.name }} <span aria-hidden="true">·</span> {{ request.user.display_name|default:request.user.username }}</p></div>
+    </div>
+    <time id="currentDateTime" class="staff-mobile-time" aria-label="تاریخ و ساعت محلی"></time>
+  </header>
+
+  <section class="staff-mobile-content" aria-labelledby="staff-page-title">
+    <div class="staff-mobile-intro">
+      <h2 id="staff-page-title">صفحه‌های در دسترس</h2>
+      <p>برای باز کردن هر بخش، روی کارت آن بزنید.</p>
+    </div>
+    <nav class="staff-mobile-links" aria-label="صفحه‌های مجاز">
+      {% for page in pages %}
+        <a class="staff-mobile-link" href="{{ page.url }}">
+          <span>{{ page.title }}</span><span class="staff-mobile-arrow" aria-hidden="true">←</span>
+        </a>
+      {% empty %}
+        <p class="staff-mobile-empty">هنوز دسترسی صفحه‌ای برای این حساب تعریف نشده است. از مدیر باشگاه بخواهید دسترسی‌ها را تنظیم کند.</p>
+      {% endfor %}
+    </nav>
+  </section>
+
+  <footer class="staff-mobile-footer">
+    <form method="post" action="{% url 'logout' %}">{% csrf_token %}<button type="submit" class="btn">خروج از حساب</button></form>
+  </footer>
+</main>
+{% endblock %}

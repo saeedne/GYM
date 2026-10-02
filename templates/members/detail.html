@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load jalali %}
+{% block title %}{{ member.full_name }} | {{ club.name }}{% endblock %}
+{% block content %}
+<div class="page-head">
+    <div>
+        <h1>{{ member.full_name }}</h1>
+        <p class="muted">{{ club.name }} / {{ member.branch.name|default:"بدون شعبه" }}</p>
+    </div>
+    <div class="actions">
+        {% if 'change_members' in club_permissions or 'all' in club_permissions %}
+        <a class="btn primary" href="{% url 'member_edit' member.pk %}">ویرایش</a>
+        {% endif %}
+        {% if 'delete_members' in club_permissions or 'all' in club_permissions %}
+        <a class="btn danger" href="{% url 'member_delete' member.pk %}">حذف</a>
+        {% endif %}
+    </div>
+</div>
+<div class="panel detail-grid">
+    <div><span>کد عضویت</span><strong>{{ member.member_code }}</strong></div>
+    <div><span>موبایل</span><strong>{{ member.mobile }}</strong></div>
+    <div><span>کد ملی</span><strong>{{ member.national_id|default:"-" }}</strong></div>
+    <div><span>ایمیل</span><strong>{{ member.email|default:"-" }}</strong></div>
+    <div><span>وضعیت</span><strong>{{ member.get_status_display }}</strong></div>
+    <div><span>جنسیت</span><strong>{{ member.get_gender_display|default:"-" }}</strong></div>
+    <div><span>تاریخ تولد</span><strong>{{ member.birth_date|jalali_date }}</strong></div>
+    <div><span>تماس اضطراری</span><strong>{{ member.emergency_name|default:"-" }} {{ member.emergency_mobile|default:"" }}</strong></div>
+</div>
+<div class="panel table-wrap"><div class="page-head"><h3>قراردادهای عضویت</h3>{% if 'add_membership' in club_permissions or 'all' in club_permissions %}<a class="btn primary" href="{% url 'membership:contract_create' %}">قرارداد جدید</a>{% endif %}</div><table><thead><tr><th>شماره</th><th>پلن</th><th>شروع</th><th>پایان</th><th>مانده</th><th>وضعیت</th></tr></thead><tbody>{% for c in contracts %}<tr><td>{{ c.contract_code }}</td><td>{{ c.plan.name }}</td><td>{{ c.start_date|jalali_date }}</td><td>{{ c.end_date|jalali_date }}</td><td>{{ c.balance|floatformat:0 }} ریال</td><td>{{ c.get_status_display }}</td></tr>{% empty %}<tr><td colspan="6" class="empty">قراردادی ثبت نشده است.</td></tr>{% endfor %}</tbody></table></div>
+<div class="panel table-wrap"><div class="page-head"><h3>پرداخت‌های اخیر</h3><a class="btn" href="{% url 'membership:payment_create' %}?member={{ member.pk }}">ثبت پرداخت</a></div><table><thead><tr><th>تاریخ</th><th>مبلغ</th><th>روش</th><th>وضعیت</th><th>پیگیری</th></tr></thead><tbody>{% for p in payments %}<tr><td>{{ p.paid_on|jalali_date }}</td><td>{{ p.amount|floatformat:0 }} ریال</td><td>{{ p.get_method_display }}</td><td>{{ p.get_status_display }}</td><td>{{ p.reference|default:"-" }}</td></tr>{% empty %}<tr><td colspan="5" class="empty">پرداختی ثبت نشده است.</td></tr>{% endfor %}</tbody></table></div>
+<div class="panel table-wrap"><h3>ترددهای اخیر</h3><table><thead><tr><th>ورود</th><th>خروج</th><th>وضعیت</th><th>توضیح</th></tr></thead><tbody>{% for r in visits %}<tr><td>{{ r.check_in|jalali_date:True }}</td><td>{{ r.check_out|jalali_date:True }}</td><td>{{ r.get_status_display }}</td><td>{{ r.denial_reason|default:"-" }}</td></tr>{% empty %}<tr><td colspan="4" class="empty">ترددی ثبت نشده است.</td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}داشبورد | {{ club.name|default:"Gym Manager" }}{% endblock %}
+
+{% block content %}
+{% if no_club %}
+<div class="empty-card">
+    <h2>باشگاه فعالی برای این کاربر ثبت نشده است.</h2>
+    <p>از بخش مدیریت، عضویت کاربر در یک باشگاه را ایجاد کنید.</p>
+</div>
+{% else %}
+<div class="page-head">
+    <div>
+        <h1>داشبورد</h1>
+        <p class="muted">مدیریت باشگاه: {{ club.name }}</p>
+    </div>
+    <span class="badge success">باشگاه فعال</span>
+</div>
+
+<div class="cards">
+    <div class="card"><span>کل اعضا</span><strong>{{ members_count }}</strong></div>
+    <div class="card"><span>اعضای فعال</span><strong>{{ active_members }}</strong></div>
+    <div class="card"><span>شعبه‌های فعال</span><strong>{{ branch_count }}</strong></div>
+</div>
+
+<div class="panel">
+    <h3>وضعیت نسخه فعلی</h3>
+    <p>فعال . نسخه 1.1.1</p>
+</div>
+{% endif %}
+{% endblock %}

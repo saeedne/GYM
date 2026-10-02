@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}<div class="page-head"><h1>{{ title }}</h1></div><div class="panel"><form method="post" class="form-grid">{% csrf_token %}{% for f in form %}<div class="field"><label for="{{ f.id_for_label }}">{{ f.label }}</label>{{ f }}{% for e in f.errors %}<small class="error">{{ e }}</small>{% endfor %}</div>{% endfor %}<button class="btn primary">ذخیره مربی</button></form></div>{% endblock %}

@@ -1,0 +1,120 @@
+{% load static %}
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{% block title %}Gym Manager{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/app.css' %}?v=20260930a">
+    <link rel="stylesheet" href="{% static 'vendor/persian-datepicker-1.2.0.min.css' %}">
+    {% block head_extra %}{% endblock %}
+</head>
+<body data-theme-user="{% if request.user.is_authenticated %}{{ request.user.username }}{% else %}guest{% endif %}" data-authenticated="{{ request.user.is_authenticated|yesno:'true,false' }}">
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+<div class="app-shell">
+    <aside class="sidebar">
+        <div class="brand">GYM <span>MANAGER</span></div>
+        <nav>
+            {% if 'view_dashboard' in club_permissions or 'all' in club_permissions %}<a href="{% url 'dashboard' %}">داشبورد</a>{% endif %}
+            {% if 'view_members' in club_permissions or 'all' in club_permissions %}<a href="{% url 'member_list' %}">اعضا</a>{% endif %}
+            {% if 'view_membership' in club_permissions or 'all' in club_permissions %}<a href="{% url 'membership:plans' %}">پلن‌های عضویت</a><a href="{% url 'membership:contracts' %}">قراردادها</a><a href="{% url 'membership:payments' %}">پرداخت‌ها</a>{% endif %}
+            {% if 'view_attendance' in club_permissions or 'all' in club_permissions %}<a href="{% url 'attendance:checkin' %}">ثبت ورود/خروج</a><a href="{% url 'attendance:report' %}">گزارش تردد</a>{% endif %}
+            {% if 'view_access' in club_permissions or 'all' in club_permissions %}<a href="{% url 'access_control:credentials' %}">کارت و QR</a><a href="{% url 'access_control:guests' %}">مهمان‌ها</a>{% endif %}
+            {% if 'view_training' in club_permissions or 'all' in club_permissions %}<a href="{% url 'trainers:list' %}">مربیان</a><a href="{% url 'trainers:classes' %}">کلاس‌ها و رزرو</a>{% endif %}
+            {% if 'view_store' in club_permissions or 'all' in club_permissions %}<a href="{% url 'store:dashboard' %}">فروشگاه</a>{% endif %}
+            {% if 'view_cafe' in club_permissions or 'all' in club_permissions %}<a href="{% url 'cafe:dashboard' %}">کافی‌شاپ</a>{% endif %}
+            {% if 'view_workouts' in club_permissions or 'all' in club_permissions %}<a href="{% url 'workouts:plans' %}">تمرین و ارزیابی</a>{% endif %}
+            {% if 'view_finance' in club_permissions or 'all' in club_permissions %}<a href="{% url 'finance:dashboard' %}">مالی و صندوق</a>{% endif %}
+            {% if 'view_crm' in club_permissions or 'all' in club_permissions %}<a href="{% url 'crm:leads' %}">CRM و پیگیری</a>{% endif %}
+            {% if 'view_reports' in club_permissions or 'all' in club_permissions %}<a href="{% url 'reports:dashboard' %}">گزارش‌ها</a>{% endif %}
+            {% if 'view_equipment' in club_permissions or 'all' in club_permissions %}<a href="{% url 'equipment:list' %}">تجهیزات</a>{% endif %}
+            {% if 'view_api' in club_permissions or 'all' in club_permissions %}<a href="{% url 'integrations:member_portal' %}">راهنمای اپ و API</a>{% endif %}
+            {% if request.club_membership.is_manager or request.user.is_superuser or 'view_users' in club_permissions or 'all' in club_permissions %}
+            <a href="{% url 'accounts:user_list' %}">کاربران</a>
+            <a href="{% url 'accounts:role_list' %}">نقش‌ها و دسترسی</a>
+            {% if request.user.is_superuser %}<a href="{% url 'club_management' %}">باشگاه‌ها و شعب</a>{% endif %}
+            {% endif %}
+            <a href="{% url 'appearance_settings' %}">تنظیم ظاهر</a>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="بازکردن منو" aria-expanded="false">☰ <span>منو</span></button>
+            <div class="club-heading">
+                {% if active_club %}
+                    <strong>{{ active_club.name }}</strong>
+                    <span class="muted">کد: {{ active_club.code }}</span>
+                {% else %}
+                    <strong>باشگاهی انتخاب نشده</strong>
+                {% endif %}
+                <time class="muted current-datetime" id="currentDateTime" aria-label="تاریخ و ساعت محلی"></time>
+            </div>
+
+            {% if request.user.is_authenticated %}
+            <div class="top-actions">
+                {% if available_clubs|length > 1 %}
+                <form method="post" action="{% url 'switch_club' %}" class="club-switch">
+                    {% csrf_token %}
+                    <select name="club_id" onchange="this.form.submit()">
+                        {% for c in available_clubs %}
+                            <option value="{{ c.id }}" {% if active_club and c.id == active_club.id %}selected{% endif %}>{{ c.name }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+                {% endif %}
+                <span>{{ request.user.display_name|default:request.user.username }}</span>
+                <form method="post" action="{% url 'logout' %}" class="logout-form">{% csrf_token %}<button class="btn" type="submit">خروج</button></form>
+            </div>
+            {% endif %}
+        </header>
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <section class="content">
+            {% block content %}{% endblock %}
+        </section>
+    </main>
+</div>
+
+<script src="{% static 'vendor/jquery-3.7.1.min.js' %}"></script>
+<script src="{% static 'vendor/persian-date-1.1.0.min.js' %}"></script>
+<script src="{% static 'vendor/persian-datepicker-1.2.0.min.js' %}"></script>
+<script src="{% static 'js/app.js' %}?v=20260929f"></script>
+<script>
+document.querySelectorAll('fieldset, .field').forEach(group => {
+    const checkboxes = [...group.querySelectorAll('input[type="checkbox"]')];
+    if (checkboxes.length <= 5) return;
+
+    const toggle = document.createElement('label');
+    toggle.className = 'select-all-checkbox';
+    toggle.innerHTML = '<input type="checkbox"> <span>انتخاب همه</span>';
+    group.prepend(toggle);
+    const master = toggle.querySelector('input');
+
+    const updateMaster = () => {
+        const checkedCount = checkboxes.filter(box => box.checked).length;
+        master.checked = checkedCount === checkboxes.length;
+        master.indeterminate = checkedCount > 0 && checkedCount < checkboxes.length;
+    };
+    master.addEventListener('change', () => {
+        const shouldCheck = master.checked;
+        checkboxes.forEach(box => {
+            box.checked = shouldCheck;
+        });
+        checkboxes.forEach(box => box.dispatchEvent(new Event('change', { bubbles: true })));
+        updateMaster();
+    });
+    checkboxes.forEach(box => box.addEventListener('change', updateMaster));
+    updateMaster();
+});
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}تنظیم ظاهر{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>تنظیم ظاهر برنامه</h1><p>رنگ و چیدمان برای همین حساب در این مرورگر ذخیره می‌شود.</p></div></div>
+<div class="panel"><h2>تم‌های فعلی</h2><div class="theme-options">
+<button class="btn theme-choice" data-theme="blue" style="--swatch:#2386ff">آبی سرمه‌ای</button><button class="btn theme-choice" data-theme="teal" style="--swatch:#14b8a6">فیروزه‌ای</button><button class="btn theme-choice" data-theme="purple" style="--swatch:#9b7bff">بنفش</button><button class="btn theme-choice" data-theme="amber" style="--swatch:#f59e0b">کهربایی</button>
+</div><h2>تم‌های گرم</h2><div class="theme-options">
+<button class="btn theme-choice" data-theme="sunset" style="--swatch:#f9735b">غروب</button><button class="btn theme-choice" data-theme="terracotta" style="--swatch:#d76a43">سفالینه</button><button class="btn theme-choice" data-theme="rose" style="--swatch:#e45c78">رز</button><button class="btn theme-choice" data-theme="copper" style="--swatch:#c77936">مسی</button>
+</div><h2>تم‌های کم‌آبی</h2><div class="theme-options">
+<button class="btn theme-choice" data-theme="forest" style="--swatch:#79a85a">جنگلی</button><button class="btn theme-choice" data-theme="emerald" style="--swatch:#35a77c">زمردی</button><button class="btn theme-choice" data-theme="graphite" style="--swatch:#a7afb8">گرافیتی</button><button class="btn theme-choice" data-theme="plum" style="--swatch:#bb78a6">آلویی</button><button class="btn theme-choice" data-theme="sand" style="--swatch:#c6a66b">شن و ماسه</button>
+</div><h2>چیدمان</h2><div class="theme-options">
+<button class="btn layout-choice" data-layout="standard">استاندارد</button><button class="btn layout-choice" data-layout="wide">عریض</button><button class="btn layout-choice" data-layout="compact">فشرده</button>
+</div><p class="muted">تغییرها بلافاصله اعمال می‌شوند. برای برگشت به ظاهر اولیه، دکمه بازنشانی را بزن.</p><button type="button" class="btn" id="resetAppearance">بازنشانی ظاهر</button></div>
+<div class="panel">
+    <h2>راهنماهای برنامه</h2>
+    <p class="muted">برای مشاهده یا دریافت راهنمای موردنظر، یکی از دکمه‌ها را انتخاب کنید.</p>
+
+    <div class="theme-options">
+        <!-- <a class="btn"
+           href="{% static 'docs/gym_manager_01_owner_install_first_use.pdf' %}"
+           target="_blank" rel="noopener">
+            راهنمای نصب و شروع به کار
+        </a> -->
+
+        <a class="btn"
+           href="{% static 'docs/gym_manager_02_club_admin_full_guide.pdf' %}"
+           target="_blank" rel="noopener">
+            راهنمای مدیر باشگاه
+        </a>
+
+        <a class="btn"
+           href="{% static 'docs/gym_manager_03_reception_user_guide.pdf' %}"
+           target="_blank" rel="noopener">
+            راهنمای کاربر پذیرش
+        </a>
+    </div>
+</div>
+{% endblock %}

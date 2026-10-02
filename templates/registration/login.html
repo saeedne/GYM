@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}ورود{% endblock %}
+{% block content %}
+<div class="login-wrap">
+    <div class="login-card">
+        <h1>ورود به Gym Manager</h1>
+        <p class="muted">ورود به سامانه مدیریت باشگاه‌ها</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <label>نام کاربری</label>
+            {{ form.username }}
+            <label>رمز عبور</label>
+            {{ form.password }}
+            <button class="btn primary" type="submit">ورود</button>
+        </form>
+    </div>
+</div>
+<div class="panel login-appearance-panel">
+    <h2>انتخاب ظاهر برنامه</h2>
+    <p class="muted">یکی از رنگ‌ها را انتخاب کنید؛ انتخاب شما در همین مرورگر ذخیره می‌شود.</p>
+    <h3>تم‌های اصلی</h3>
+    <div class="theme-options">
+        <button type="button" class="btn theme-choice" data-theme="blue" style="--swatch:#2386ff">آبی سرمه‌ای</button>
+        <button type="button" class="btn theme-choice" data-theme="teal" style="--swatch:#14b8a6">فیروزه‌ای</button>
+        <button type="button" class="btn theme-choice" data-theme="purple" style="--swatch:#9b7bff">بنفش</button>
+        <button type="button" class="btn theme-choice" data-theme="amber" style="--swatch:#f59e0b">کهربایی</button>
+    </div>
+    <h3>تم‌های گرم</h3>
+    <div class="theme-options">
+        <button type="button" class="btn theme-choice" data-theme="sunset" style="--swatch:#f9735b">غروب</button>
+        <button type="button" class="btn theme-choice" data-theme="terracotta" style="--swatch:#d76a43">سفالینه</button>
+        <button type="button" class="btn theme-choice" data-theme="rose" style="--swatch:#e45c78">رز</button>
+        <button type="button" class="btn theme-choice" data-theme="copper" style="--swatch:#c77936">مسی</button>
+    </div>
+    <h3>تم‌های کم‌آبی</h3>
+    <div class="theme-options">
+        <button type="button" class="btn theme-choice" data-theme="forest" style="--swatch:#79a85a">جنگلی</button>
+        <button type="button" class="btn theme-choice" data-theme="emerald" style="--swatch:#35a77c">زمردی</button>
+        <button type="button" class="btn theme-choice" data-theme="graphite" style="--swatch:#a7afb8">گرافیتی</button>
+        <button type="button" class="btn theme-choice" data-theme="plum" style="--swatch:#bb78a6">آلویی</button>
+        <button type="button" class="btn theme-choice" data-theme="sand" style="--swatch:#c6a66b">شن و ماسه</button>
+    </div>
+    <h3>چیدمان</h3>
+    <div class="theme-options">
+        <button type="button" class="btn layout-choice" data-layout="standard">استاندارد</button>
+        <button type="button" class="btn layout-choice" data-layout="wide">عریض</button>
+        <button type="button" class="btn layout-choice" data-layout="compact">فشرده</button>
+    </div>
+    <button type="button" class="btn" id="resetAppearance">بازنشانی ظاهر</button>
+</div>
+{% endblock %}

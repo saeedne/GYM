@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}رزرو کلاس{% endblock %}
+{% block content %}<div class="page-head"><div><h1>رزرو کلاس {{ session.title }}</h1><p class="muted">{{ session.trainer.display_name }} — ظرفیت باقی‌مانده: {{ session.available_seats }}</p></div></div><div class="panel"><form method="post" class="form-grid">{% csrf_token %}{% for f in form %}<div class="field"><label>{{ f.label }}</label>{{ f }}{% for e in f.errors %}<small class="error">{{ e }}</small>{% endfor %}</div>{% endfor %}<button class="btn primary">ثبت رزرو</button></form></div>{% endblock %}

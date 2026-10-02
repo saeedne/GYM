@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}پلن‌های عضویت{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>پلن‌های عضویت</h1><p class="muted">{{ club.name }} — پلن‌ها فقط در همین باشگاه دیده می‌شوند.</p></div></div>
+{% if 'add_membership' in club_permissions or 'all' in club_permissions %}<div class="panel">
+<h3>تعریف پلن</h3><form method="post" class="form-grid">{% include "membership/_form.html" %}</form>
+</div>{% endif %}
+<div class="panel table-wrap"><table><thead><tr><th>نام</th><th>کد</th><th>مدت</th><th>مبلغ</th><th>وضعیت</th><th></th></tr></thead><tbody>
+{% for p in plans %}<tr><td>{{ p.name }}</td><td>{{ p.code }}</td><td>{{ p.duration_days }} روز</td><td>{{ p.price|floatformat:0 }} ریال</td><td>{{ p.is_active|yesno:"فعال,غیرفعال" }}</td><td>{% if 'change_membership' in club_permissions or 'all' in club_permissions %}<a href="{% url 'membership:plan_edit' p.pk %}">ویرایش</a>{% endif %} {% if 'delete_membership' in club_permissions or 'all' in club_permissions %}<form method="post" action="{% url 'membership:plan_delete' p.pk %}" class="inline-form" onsubmit="return confirm('پلن {{ p.name|escapejs }} حذف شود؟')">{% csrf_token %}<button class="btn danger" type="submit">حذف</button></form>{% endif %}</td></tr>{% empty %}<tr><td colspan="6" class="empty">پلنی ثبت نشده است.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

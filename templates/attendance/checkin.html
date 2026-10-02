@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}ثبت ورود و خروج{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>ثبت ورود و خروج</h1><p class="muted">{{ club.name }} — کد دستی، شناسه کارت RFID یا مقدار QR را وارد/اسکن کن؛ قواعد ساعت و روز هم اعمال می‌شوند.</p></div><a class="btn" href="{% url 'attendance:report' %}">گزارش تردد</a></div>
+<div class="panel"><form method="post" class="form-grid">{% csrf_token %}{% for field in form %}<div class="field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% for error in field.errors %}<small class="error">{{ error }}</small>{% endfor %}</div>{% endfor %}<button class="btn primary" type="submit">ثبت ورود</button></form></div>
+<div class="panel table-wrap"><h3>حضورهای باز</h3><table><thead><tr><th>عضو</th><th>کد</th><th>شعبه</th><th>زمان ورود</th><th></th></tr></thead><tbody>
+{% for r in open_records %}<tr><td>{{ r.member.full_name }}</td><td>{{ r.member.member_code }}</td><td>{{ r.branch.name|default:"-" }}</td><td>{{ r.check_in|date:"Y/m/d H:i" }}</td><td><form method="post" action="{% url 'attendance:checkout' r.pk %}">{% csrf_token %}<button class="btn" type="submit">ثبت خروج</button></form></td></tr>{% empty %}<tr><td colspan="5" class="empty">ورود بازی وجود ندارد.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

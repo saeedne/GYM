@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}پرداخت‌ها{% endblock %}
+{% block content %}
+<div class="page-head"><div><h1>پرداخت‌ها</h1><p class="muted">جمع پرداخت‌های ثبت‌شده: {{ total|floatformat:0 }} ریال</p></div>{% if 'add_membership' in club_permissions or 'all' in club_permissions %}<a class="btn primary" href="{% url 'membership:payment_create' %}">+ ثبت پرداخت</a>{% endif %}</div>
+<div class="panel"><form method="get" class="searchbar"><input name="q" value="{{ q }}" placeholder="جستجوی عضو یا شماره پیگیری"><button class="btn">جستجو</button></form></div>
+<div class="panel table-wrap"><table><thead><tr><th>عضو</th><th>قرارداد</th><th>تاریخ</th><th>مبلغ</th><th>روش</th><th>وضعیت</th><th>پیگیری</th></tr></thead><tbody>
+{% for p in items %}<tr><td>{{ p.member.full_name }}</td><td>{{ p.contract.contract_code|default:"-" }}</td><td>{{ p.paid_on|date:"Y/m/d" }}</td><td>{{ p.amount|floatformat:0 }} ریال</td><td>{{ p.get_method_display }}</td><td>{{ p.get_status_display }}</td><td>{{ p.reference|default:"-" }}</td></tr>{% empty %}<tr><td colspan="7" class="empty">پرداختی ثبت نشده است.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

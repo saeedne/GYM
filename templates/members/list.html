@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}اعضا | {{ club.name }}{% endblock %}
+{% block content %}
+<div class="page-head">
+    <div>
+        <h1>اعضای {{ club.name }}</h1>
+        <p class="muted">اطلاعات اعضا فقط مربوط به باشگاه فعال است.</p>
+    </div>
+    {% if 'add_members' in club_permissions or 'all' in club_permissions %}<a class="btn primary" href="{% url 'member_create' %}">+ ثبت عضو</a>{% endif %}
+</div>
+
+<div class="panel">
+    <form class="searchbar" method="get">
+        <input name="q" value="{{ q }}" placeholder="نام، کد عضویت، موبایل یا کد ملی">
+        <button class="btn" type="submit">جستجو</button>
+        {% if q %}<a class="btn" href="{% url 'member_list' %}">پاک کردن</a>{% endif %}
+    </form>
+</div>
+
+<div class="panel table-wrap">
+<table>
+<thead><tr><th>کد</th><th>نام</th><th>شعبه</th><th>موبایل</th><th>وضعیت</th><th></th></tr></thead>
+<tbody>
+{% for member in members %}
+<tr>
+    <td>{{ member.member_code }}</td>
+    <td><a href="{% url 'member_detail' member.pk %}">{{ member.full_name }}</a></td>
+    <td>{{ member.branch.name|default:"-" }}</td>
+    <td>{{ member.mobile }}</td>
+    <td>{{ member.get_status_display }}</td>
+    <td class="row-actions">
+        {% if 'change_members' in club_permissions or 'all' in club_permissions %}<a href="{% url 'member_edit' member.pk %}">ویرایش</a>{% endif %}
+        {% if 'delete_members' in club_permissions or 'all' in club_permissions %}
+        <form method="post" action="{% url 'member_delete' member.pk %}" class="inline-form" onsubmit="return confirm('پرونده این عضو حذف شود؟ این کار سوابق وابسته را نیز تحت تأثیر قرار می‌دهد.')">
+            {% csrf_token %}<button type="submit" class="btn danger">حذف</button>
+        </form>
+        {% endif %}
+    </td>
+</tr>
+{% empty %}
+<tr><td colspan="6" class="empty">عضوی ثبت نشده است.</td></tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+
+{% if page_obj.paginator.num_pages > 1 %}
+<div class="pagination">
+    {% if page_obj.has_previous %}<a href="?q={{ q }}&page={{ page_obj.previous_page_number }}">قبلی</a>{% endif %}
+    <span>صفحه {{ page_obj.number }} از {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}<a href="?q={{ q }}&page={{ page_obj.next_page_number }}">بعدی</a>{% endif %}
+</div>
+{% endif %}
+{% endblock %}
